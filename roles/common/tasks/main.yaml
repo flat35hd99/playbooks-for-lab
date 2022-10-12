@@ -1,0 +1,43 @@
+- name: Ensure docker repo added
+  ansible.builtin.yum_repository:
+    name: docker
+    description: docker repository
+    baseurl: "https://download.docker.com/linux/centos/8/x86_64/stable/"
+    gpgkey: "https://download.docker.com/linux/centos/gpg"
+
+- name: Ensure docker engine packages installed
+  dnf:
+    name: "{{ item }}"
+    state: installed
+  loop: "{{ packages_docker }}"
+
+- name: Ensure common packages installed
+  dnf:
+    name: "{{ item }}"
+    state: installed
+  loop: "{{ packages_common }}"
+
+- name: Ensure archive directory
+  file:
+    path: /ansible/archive
+    owner: root
+    group: root
+    mode: '1777'
+    state: directory
+
+# Install node_exporter
+- name: Ensure 9100/tcp ports allowed to prometheus
+  ansible.posix.firewalld:
+    port:  9100/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Download prometheus node exporter
+  get_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ prometheus_node_exporter_version }}/node_exporter-{{ prometheus_node_exporter_version }}.linux-amd64.tar.gz"
+  dest: /ansible/archive/prometheus/node_exporter/node_exporter-{{ prometheus_node_exporter_version }}.tar.gz
+
+- name: Check if the binary located
+  
+
+- name: tar if binary not exists

@@ -1,0 +1,9 @@
+packages_docker:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin
+packages_common:
+  - wget
+  - tar
+prometheus_node_exporter_version: '1.4.0'

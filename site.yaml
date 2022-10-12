@@ -1,0 +1,2 @@
+- import_playbook: webserver.yaml
+- import_playbook: satelite.yaml

@@ -1,0 +1,18 @@
+- name: Ensure Git installed
+  dnf:
+    name: git
+    state: installed
+
+- name: Add the user 'mattermost'
+  user:
+    name: mattermost
+
+- name: Add the 'mattermost' to sudoers
+  community.general.sudoers:
+    name: mattermost
+    commands: ALL
+
+- name: Ensure mattermost repository has cloned
+  git:
+    repo: https://github.com/mattermost/docker.git
+    dest: /home/mattermost
